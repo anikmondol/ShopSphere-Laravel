@@ -10,7 +10,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="author" content="surfside media" />
+    <meta name="author" content="Anik Mondal" />
     <link rel="shortcut icon" href="{{ asset ('assets/images/favicon.ico') }}" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com/">
     <link
@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" integrity="sha512-5Hs3dF2AEPkpNAR7UiOHba+lRSJNeM2ECkwxUIxC1Q/FLycGTbNapWXB4tP889k5T5Ju8fs4b1P5z/iB4nMfSQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     @stack('styles')
 </head>
 
@@ -641,7 +642,7 @@
 
         <div class="footer-bottom">
             <div class="container d-md-flex align-items-center">
-                <span class="footer-copyright me-auto">©2024 Surfside Media</span>
+                <span class="footer-copyright me-auto">© {{ date('Y') }} Anik Mondal</span>
                 <div class="footer-settings d-md-flex align-items-center">
                     <a href="privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp; <a
                         href="terms-conditions.html">Terms &amp;
