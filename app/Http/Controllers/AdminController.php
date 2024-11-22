@@ -171,6 +171,49 @@ class AdminController extends Controller
     }
 
 
+    function category_edit($id)
+    {
+        $category = Category::find($id);
+        return view("admin.category-edit", compact('category'));
+    }
+
+    function category_update(Request $request)
+    {
+
+        $request->validate([
+            'name' => "required",
+            'slug' => "required|unique:categories,slug," . $request->id,
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048', // Optional image validation
+        ]);
+
+
+        $category = Category::find($request->id);
+
+
+        $category->name = $request->name;
+        if ($request->filled('slug')) {
+            $category->slug = Str::slug($request->slug);
+        } else {
+            $category->slug = Str::slug($request->name);
+        }
+
+        if ($request->hasFile('image')) {
+            if (!empty($category->image) && File::exists(public_path("uploads/categories/{$category->image}"))) {
+                File::delete(public_path("uploads/categories/{$category->image}"));
+            }
+
+            $image = $request->file('image');
+            $file_extension = $image->extension();
+            $file_name = Carbon::now()->timestamp . '.' . $file_extension;
+            $this->generateCategoryThumbnailsImage($image, $file_name);
+            $category->image = $file_name;
+        }
+
+        $category->save();
+        return redirect()->route("admin.categories")->with("status", "Category has been updated successfully");
+    }
+
+
     function generateCategoryThumbnailsImage($image, $imageName)
     {
         $destinationPath = public_path("uploads/categories");
@@ -181,5 +224,17 @@ class AdminController extends Controller
         })->save($destinationPath . "/" . $imageName);
     }
 
+    function category_delete($id){
+
+        $category = Category::find($id);
+
+        if (File::exists(public_path("uploads/categories/{$category->image}"))) {
+            File::delete(public_path("uploads/categories/{$category->image}"));
+        }
+
+        $category->delete();
+        return redirect()->route("admin.categories")->with("status", "Category has been delete successfully");
+
+    }
 
 }
