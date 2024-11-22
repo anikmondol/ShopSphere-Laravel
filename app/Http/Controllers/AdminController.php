@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
+use App\Models\Category;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -20,6 +21,8 @@ class AdminController extends Controller
     {
         return view("admin.index");
     }
+
+    // brands functionality
 
     function brands()
     {
@@ -45,7 +48,11 @@ class AdminController extends Controller
         $brand = new Brand();
 
         $brand->name = $request->name;
-        $brand->slug = Str::slug($request->name);
+        if ($request->filled('slug')) {
+            $brand->slug = Str::slug($request->slug);
+        } else {
+            $brand->slug = Str::slug($request->name);
+        }
         $image = $request->file('image');
         $file_extension = $request->file('image')->extension();
         $file_name = Carbon::now()->timestamp . '.' . $file_extension;
@@ -109,4 +116,27 @@ class AdminController extends Controller
             $constrain->aspectRatio();
         })->save($destinationPath . "/" . $imageName);
     }
+
+    function brand_delete($id){
+
+        $brand = Brand::find($id);
+
+        if (File::exists(public_path("uploads/brands/{$brand->image}"))) {
+            File::delete(public_path("uploads/brands/{$brand->image}"));
+        }
+
+        $brand->delete();
+        return redirect()->route("admin.brands")->with("status", "Brand has been delete successfully");
+
+    }
+
+
+    // categories functionality
+
+    function categories()
+    {
+        $categories = Category::orderBy("id", "DESC")->paginate(10);
+        return view("admin.categories", compact('categories'));
+    }
+
 }
