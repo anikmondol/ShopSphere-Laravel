@@ -30,6 +30,8 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
 
     // categories functionality
     Route::get('/admin/categories', [AdminController::class, 'categories'])->name("admin.categories");
+    Route::get('/admin/categories/add', [AdminController::class, 'add_category'])->name("admin.category-add");
+    Route::post('/admin/category/store', [AdminController::class, 'category_store'])->name("admin.category.store");
 
 
 });

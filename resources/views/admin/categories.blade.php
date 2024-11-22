@@ -26,14 +26,14 @@
                         <form class="form-search">
                             <fieldset class="name">
                                 <input type="text" placeholder="Search here..." class="" name="name"
-                                    tabindex="2" value="" aria-required="true" required="">
+                                    tabindex="2" value="" aria-required="true" >
                             </fieldset>
                             <div class="button-submit">
                                 <button class="" type="submit"><i class="icon-search"></i></button>
                             </div>
                         </form>
                     </div>
-                    <a class="tf-button style-1 w208" href="{{ route('admin.brand-add') }}"><i class="icon-plus"></i>Add
+                    <a class="tf-button style-1 w208" href="{{ route('admin.category-add') }}"><i class="icon-plus"></i>Add
                         new</a>
                 </div>
                 <div class="wg-table table-all-user">
@@ -58,7 +58,7 @@
                                         <td>{{ $i++ }}</td>
                                         <td class="pname d-flex justify-center align-items-center">
                                             <div class="image">
-                                                <img src="{{ asset('uploads/brands') }}/{{ $category->image }}"
+                                                <img src="{{ asset('uploads/categories') }}/{{ $category->image }}"
                                                     alt="{{ $category->name }}" class="image">
                                             </div>
                                             <div class="name">

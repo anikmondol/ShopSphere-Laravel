@@ -461,9 +461,9 @@
 
                         @yield('content')
 
-                        <div class="bottom-page">
+                        {{-- <div class="bottom-page">
                             <div class="body-text">Copyright © {{ date('Y') }} Anik Mondal</div>
-                        </div>
+                        </div> --}}
                     </div>
 
                 </div>
