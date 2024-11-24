@@ -257,7 +257,6 @@ class AdminController extends Controller
 
     function product_store(Request $request)
     {
-
         $request->validate([
             'name' => 'required',
             'slug' => 'required|unique:products,slug',
@@ -270,10 +269,12 @@ class AdminController extends Controller
             'featured' => 'required',
             'quantity' => 'required',
             'image' => 'required|mimes:jpg,png,jpeg|max:2048',
-            'images' => 'required',
+            'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
             'category_id' => 'required',
             'brand_id' => 'required',
         ]);
+
+
 
         $product = new Product();
 

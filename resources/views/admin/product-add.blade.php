@@ -127,7 +127,7 @@
                 </div>
                 <div class="wg-box">
                     <fieldset>
-                        <div class="body-title">Upload images <span class="tf-color-1">*</span>
+                        <div class="body-title mb-4">Upload images <span class="tf-color-1">*</span>
                         </div>
                         <div class="upload-image flex-grow">
                             <div class="item" id="imgpreview" style="display:none">
@@ -156,9 +156,9 @@
                         <div class="body-title mb-10">Upload Gallery Images</div>
                         <div class="upload-image mb-16">
                             <!-- <div class="item">
-                                            <img src="images/upload/upload-1.png" alt="">
-                                        </div>                                                 -->
-                            <div id="galUpload" class="item up-load">
+                                                <img src="images/upload/upload-1.png" alt="">
+                                            </div>                                                 -->
+                            {{-- <div id="galUpload" class="item up-load">
                                 <label class="uploadfile" for="gFile">
                                     <span class="icon">
                                         <i class="icon-upload-cloud"></i>
@@ -168,9 +168,79 @@
                                     <input type="file" id="gFile" name="images[]" accept="image/*"
                                         multiple="">
                                 </label>
-                            </div>
+                            </div> --}}
                         </div>
                     </fieldset>
+                    <div class="form-group row>
+                        <label class="col-sm-3 col-form-label">Attachments</label>
+                        <div class="col-sm-9">
+                            <div class="file-upload-section">
+                                <!-- Hidden file input for multiple files -->
+                                <input
+                                    name="images[]"
+                                    type="file"
+                                    class="form-control d-none"
+                                    allowed="png,gif,jpeg,jpg"
+                                    multiple
+                                >
+                                <!-- Visible input field and browse button -->
+                                <div class="input-group col-xs-12">
+                                    <input
+                                        type="text"
+                                        class="form-control file-upload-info"
+                                        disabled
+                                        readonly
+                                        placeholder="Upload multiple images (max 500kB each)"
+                                    >
+                                    <span class="input-group-append">
+                                        <button
+                                            class="file-upload-browse btn btn-outline-secondary"
+                                            type="button">
+                                            <i class="fas fa-upload"></i> Browse
+                                        </button>
+                                    </span>
+                                </div>
+                                <!-- Preview container for multiple images -->
+                                <div class="display-input-images mt-3">
+                                    <!-- Previews will be appended here -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="file-upload-section">
+                                <!-- Hidden file input for multiple files -->
+                                <input
+                                    name="images[]"
+                                    type="file"
+                                    class="form-control d-none"
+                                    allowed="png,gif,jpeg,jpg"
+                                    multiple
+                                >
+                                <!-- Visible input field and browse button -->
+                                <div class="input-group col-xs-12">
+                                    <input
+                                        type="text"
+                                        class="form-control file-upload-info"
+                                        disabled
+                                        readonly
+                                        placeholder="Upload multiple images (max 500kB each)"
+                                    >
+                                    <span class="input-group-append">
+                                        <button
+                                            class="file-upload-browse btn btn-outline-secondary"
+                                            type="button">
+                                            <i class="fas fa-upload"></i> Browse
+                                        </button>
+                                    </span>
+                                </div>
+                                <!-- Preview container for multiple images -->
+                                <div class="display-input-images mt-3">
+                                    <!-- Previews will be appended here -->
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
 
                     @error('images')
                         <span class="alert alert-danger text-center" role="alert">
@@ -294,15 +364,17 @@
             });
 
             $("#gFile").on("change", function(e) {
-                const photoInput = $("#gFile");
                 const gPhotos = this.files;
 
-                $.each(gPhotos, function(key, val) {
-                    $("#galUpload").prepend(
-                        `<div class="item gitems"><img src="${URL.createObjectURL(val)}" /></div>`
-                    );
-                });
+                // Clear previous gallery preview
+                // $(".gitems").remove();
 
+                // Loop through selected files and append to gallery
+                $.each(gPhotos, function(index, file) {
+                    const imgPreview =
+                        `<div class="item gitems"><img src="${URL.createObjectURL(file)}" alt="Gallery Image" /></div>`;
+                    $("#galUpload").before(imgPreview);
+                });
             });
 
             $("input[name='name']").on('change', function() {
@@ -316,5 +388,55 @@
                 .replace(/\s+/g, "-")
                 .replace(/^-+|-+$/g, "");
         }
+
+        $(document).ready(function () {
+    // Trigger file input click when "Browse" is clicked
+    $(".file-upload-browse").on("click", function () {
+        $(this).closest(".file-upload-section").find('input[type="file"]').trigger("click");
+    });
+
+    // Handle file input change for multiple images
+    $('input[name="images[]"]').on("change", function (e) {
+        const fileInput = $(this);
+        const files = this.files; // Get all selected files
+        const allowedExtensions = fileInput.attr("allowed").split(",");
+        const maxSize = 500 * 1024; // 500kB
+
+        // Loop through all files and handle them
+        $.each(files, function (index, file) {
+            const fileExtension = file.name.split(".").pop().toLowerCase();
+
+            // Validate file extension
+            if (!allowedExtensions.includes(fileExtension)) {
+                alert(`Invalid file type: ${file.name}. Only the following types are allowed: ${allowedExtensions.join(", ")}`);
+                return;
+            }
+
+            // Validate file size
+            if (file.size > maxSize) {
+                alert(`File size exceeds the maximum limit of 500kB: ${file.name}`);
+                return;
+            }
+
+            // Create a preview item for each valid file
+            const previewItem = `
+                <div class="preview-item">
+                    <img src="${URL.createObjectURL(file)}" alt="Image Preview" class="img-thumbnail" />
+                    <button type="button" class="btn btn-sm btn-outline-danger file-upload-remove" data-file-index="${index}" title="Remove">x</button>
+                </div>
+            `;
+
+            // Append the preview item to the container
+            fileInput.closest(".file-upload-section").find(".display-input-images").append(previewItem);
+        });
+    });
+
+    // Remove individual image previews
+    $(".file-upload-section").on("click", ".file-upload-remove", function () {
+        $(this).closest(".preview-item").remove();
+    });
+});
+
+
     </script>
 @endpush
