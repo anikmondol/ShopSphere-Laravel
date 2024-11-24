@@ -8,6 +8,18 @@ class Product extends Model
 {
     //
 
+    protected $fillable = [
+        'name',
+        'regular_price',
+        'sale_price',
+        // Other attributes
+    ];
+
+    protected $casts = [
+        'regular_price' => 'decimal:2',
+        'sale_price' => 'decimal:2',
+    ];
+
     function category(){
         return $this->belongsTo(Category::class, 'category_id');
     }
