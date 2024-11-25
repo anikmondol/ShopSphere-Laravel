@@ -39,9 +39,11 @@
 
                 <div class="section-menu-left">
                     <div class="box-logo">
-                        <a href="{{ route('admin.index') }}" id="site-logo-inner">
-                            <img class="" id="logo_header_1" alt="" src="{{ asset('images/logo/logo.png') }}"
-                                data-light="images/logo/logo.png" data-dark="images/logo/logo.png">
+                        <a href="{{ route('admin.index') }}" id="site-logo-inner" class="d-flex justify-center align-items-center gap-2">
+                            <img class="" id="logo_header_1" alt="" src="{{ asset('images/logo/neptune.png') }}" style="width: 35px;
+                             margin-left: 15px"
+                                data-light="images/logo/neptune.png" data-dark="images/logo/neptune.png">
+                                <h5>ShopSphere</h5>
                         </a>
                         <div class="button-show-hide">
                             <i class="icon-menu-left"></i>
@@ -179,11 +181,13 @@
                     <div class="header-dashboard">
                         <div class="wrap">
                             <div class="header-left">
-                                <a href="index-2.html">
+                                <a href="index-2.html" class="d-flex d-lg-none justify-center align-items-center gap-2">
                                     <img class="" id="logo_header_mobile" alt=""
-                                        src="{{ asset('images/logo/logo.png') }}" data-light="images/logo/logo.png"
-                                        data-dark="images/logo/logo.png" data-width="154px" data-height="52px"
-                                        data-retina="images/logo/logo.png">
+                                        src="{{ asset('images/logo/neptune.png') }}" style="width: 25px;
+    3                                  margin-left: 15px" data-light="images/logo/neptune.png"
+                                        data-dark="images/logo/neptune.png" data-width="154px" data-height="52px"
+                                        data-retina="images/logo/neptune.png">
+                                        <h5>ShopSphere</h5>
                                 </a>
                                 <div class="button-show-hide">
                                     <i class="icon-menu-left"></i>
