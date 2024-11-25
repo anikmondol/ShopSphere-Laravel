@@ -129,12 +129,12 @@
                     <fieldset>
                         <div class="body-title mb-4">Upload images <span class="tf-color-1">*</span>
                         </div>
-                        <div class="upload-image flex-grow">
+                        <div class="upload-image flex-grow ">
                             <div class="item" id="imgpreview" style="display:none">
                                 <img src="../../../localhost_8000/images/upload/upload-1.png" class="effect8"
                                     alt="">
                             </div>
-                            <div id="upload-file" class="item up-load">
+                            <div id="upload-file" class="item up-load w-100">
                                 <label class="uploadfile" for="myFile">
                                     <span class="icon">
                                         <i class="icon-upload-cloud"></i>
@@ -154,94 +154,90 @@
 
                     <fieldset>
                         <div class="body-title mb-10">Upload Gallery Images</div>
-                        <div class="upload-image mb-16">
-                            <!-- <div class="item">
-                                                <img src="images/upload/upload-1.png" alt="">
-                                            </div>                                                 -->
-                            {{-- <div id="galUpload" class="item up-load">
-                                <label class="uploadfile" for="gFile">
-                                    <span class="icon">
-                                        <i class="icon-upload-cloud"></i>
+                        <div class="upload-image mb-16 grid-container">
+                            <div class="file-upload-section w-100">
+                                <label
+                                    class="uploadfile d-flex flex-column align-items-center justify-content-center p-4 border rounded"
+                                    style="cursor: pointer; border: 2px dashed #007bff; background-color: #f9f9f9;">
+                                    <span class="icon" style="font-size: 36px; color: #007bff;">
+                                        <i class="fas fa-cloud-upload-alt"></i>
                                     </span>
-                                    <span class="text-tiny">Drop your images here or select <span class="tf-color">click
-                                            to browse</span></span>
-                                    <input type="file" id="gFile" name="images[]" accept="image/*"
-                                        multiple="">
+                                    <span class="text-tiny mt-2">
+                                        <span class="tf-color"
+                                            style="color: #007bff; font-weight: bold;">click to browse</span>
+                                    </span>
+                                    <input type="file" name="images[]" class="form-control d-none" accept="image/*"
+                                        multiple>
+                                         <!-- Preview Container for Multiple Images -->
+                                <div class="display-input-images mt-3" style="width: 100px">
+                                    <!-- Previews will be appended dynamically here -->
+                                </div>
                                 </label>
-                            </div> --}}
+
+                            </div>
+                            <div class="file-upload-section w-100">
+                                <label
+                                    class="uploadfile d-flex flex-column align-items-center justify-content-center p-4 border rounded"
+                                    style="cursor: pointer; border: 2px dashed #007bff; background-color: #f9f9f9;">
+                                    <span class="icon" style="font-size: 36px; color: #007bff;">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </span>
+                                    <span class="text-tiny mt-2">
+                                        <span class="tf-color"
+                                            style="color: #007bff; font-weight: bold;">click to browse</span>
+                                    </span>
+                                    <input type="file" name="images[]" class="form-control d-none" accept="image/*"
+                                        multiple>
+                                         <!-- Preview Container for Multiple Images -->
+                                <div class="display-input-images mt-3" style="width: 100px">
+                                    <!-- Previews will be appended dynamically here -->
+                                </div>
+                                </label>
+
+                            </div>
+                            <div class="file-upload-section w-100">
+                                <label
+                                    class="uploadfile d-flex flex-column align-items-center justify-content-center p-4 border rounded"
+                                    style="cursor: pointer; border: 2px dashed #007bff; background-color: #f9f9f9;">
+                                    <span class="icon" style="font-size: 36px; color: #007bff;">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </span>
+                                    <span class="text-tiny mt-2">
+                                        <span class="tf-color"
+                                            style="color: #007bff; font-weight: bold;">click to browse</span>
+                                    </span>
+                                    <input type="file" name="images[]" class="form-control d-none" accept="image/*"
+                                        multiple>
+                                         <!-- Preview Container for Multiple Images -->
+                                <div class="display-input-images mt-3" style="width: 100px">
+                                    <!-- Previews will be appended dynamically here -->
+                                </div>
+                                </label>
+
+                            </div>
+                            <div class="file-upload-section w-100">
+                                <label
+                                    class="uploadfile d-flex flex-column align-items-center justify-content-center p-4 border rounded"
+                                    style="cursor: pointer; border: 2px dashed #007bff; background-color: #f9f9f9;">
+                                    <span class="icon" style="font-size: 36px; color: #007bff;">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </span>
+                                    <span class="text-tiny mt-2">
+                                        <span class="tf-color"
+                                            style="color: #007bff; font-weight: bold;">click to browse</span>
+                                    </span>
+                                    <input type="file" name="images[]" class="form-control d-none" accept="image/*"
+                                        multiple>
+
+
+                                <div class="display-input-images mt-3" style="width: 100px">
+                                    <!-- Previews will be appended dynamically here -->
+                                </div>
+
+                                </label>
+                            </div>
                         </div>
                     </fieldset>
-                    <div class="form-group row>
-                        <label class="col-sm-3 col-form-label">Attachments</label>
-                        <div class="col-sm-9">
-                            <div class="file-upload-section">
-                                <!-- Hidden file input for multiple files -->
-                                <input
-                                    name="images[]"
-                                    type="file"
-                                    class="form-control d-none"
-                                    allowed="png,gif,jpeg,jpg"
-                                    multiple
-                                >
-                                <!-- Visible input field and browse button -->
-                                <div class="input-group col-xs-12">
-                                    <input
-                                        type="text"
-                                        class="form-control file-upload-info"
-                                        disabled
-                                        readonly
-                                        placeholder="Upload multiple images (max 500kB each)"
-                                    >
-                                    <span class="input-group-append">
-                                        <button
-                                            class="file-upload-browse btn btn-outline-secondary"
-                                            type="button">
-                                            <i class="fas fa-upload"></i> Browse
-                                        </button>
-                                    </span>
-                                </div>
-                                <!-- Preview container for multiple images -->
-                                <div class="display-input-images mt-3">
-                                    <!-- Previews will be appended here -->
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-9">
-                            <div class="file-upload-section">
-                                <!-- Hidden file input for multiple files -->
-                                <input
-                                    name="images[]"
-                                    type="file"
-                                    class="form-control d-none"
-                                    allowed="png,gif,jpeg,jpg"
-                                    multiple
-                                >
-                                <!-- Visible input field and browse button -->
-                                <div class="input-group col-xs-12">
-                                    <input
-                                        type="text"
-                                        class="form-control file-upload-info"
-                                        disabled
-                                        readonly
-                                        placeholder="Upload multiple images (max 500kB each)"
-                                    >
-                                    <span class="input-group-append">
-                                        <button
-                                            class="file-upload-browse btn btn-outline-secondary"
-                                            type="button">
-                                            <i class="fas fa-upload"></i> Browse
-                                        </button>
-                                    </span>
-                                </div>
-                                <!-- Preview container for multiple images -->
-                                <div class="display-input-images mt-3">
-                                    <!-- Previews will be appended here -->
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
                     @error('images')
                         <span class="alert alert-danger text-center" role="alert">
                             <strong>{{ $message }}</strong>
@@ -363,20 +359,6 @@
                 }
             });
 
-            $("#gFile").on("change", function(e) {
-                const gPhotos = this.files;
-
-                // Clear previous gallery preview
-                // $(".gitems").remove();
-
-                // Loop through selected files and append to gallery
-                $.each(gPhotos, function(index, file) {
-                    const imgPreview =
-                        `<div class="item gitems"><img src="${URL.createObjectURL(file)}" alt="Gallery Image" /></div>`;
-                    $("#galUpload").before(imgPreview);
-                });
-            });
-
             $("input[name='name']").on('change', function() {
                 $("input[name='slug']").val(StringToSlug($(this).val()));
             });
@@ -389,54 +371,37 @@
                 .replace(/^-+|-+$/g, "");
         }
 
-        $(document).ready(function () {
-    // Trigger file input click when "Browse" is clicked
-    $(".file-upload-browse").on("click", function () {
-        $(this).closest(".file-upload-section").find('input[type="file"]').trigger("click");
-    });
+        $(document).ready(function() {
+            // Trigger file input when clicking on drag-and-drop area
+            $('.uploadfile').on('click', function() {
+                $(this).find('input[type="file"]').trigger('click');
+            });
 
-    // Handle file input change for multiple images
-    $('input[name="images[]"]').on("change", function (e) {
-        const fileInput = $(this);
-        const files = this.files; // Get all selected files
-        const allowedExtensions = fileInput.attr("allowed").split(",");
-        const maxSize = 500 * 1024; // 500kB
+            // Trigger file input when clicking on Browse button
+            $('.file-upload-browse').on('click', function() {
+                $(this).closest('.file-upload-section').find('input[type="file"]').trigger('click');
+            });
 
-        // Loop through all files and handle them
-        $.each(files, function (index, file) {
-            const fileExtension = file.name.split(".").pop().toLowerCase();
+            // Handle file selection and display previews
+            $('input[type="file"]').on('change', function() {
+                const files = this.files;
+                const displayContainer = $(this).closest('.file-upload-section').find(
+                    '.display-input-images');
+                displayContainer.empty(); // Clear existing previews
 
-            // Validate file extension
-            if (!allowedExtensions.includes(fileExtension)) {
-                alert(`Invalid file type: ${file.name}. Only the following types are allowed: ${allowedExtensions.join(", ")}`);
-                return;
-            }
+                if (files.length > 0) {
+                    Array.from(files).forEach(file => {
+                        const reader = new FileReader();
 
-            // Validate file size
-            if (file.size > maxSize) {
-                alert(`File size exceeds the maximum limit of 500kB: ${file.name}`);
-                return;
-            }
+                        reader.onload = function(e) {
+                            const img = $('<img>').attr('src', e.target.result);
+                            displayContainer.append(img);
+                        };
 
-            // Create a preview item for each valid file
-            const previewItem = `
-                <div class="preview-item">
-                    <img src="${URL.createObjectURL(file)}" alt="Image Preview" class="img-thumbnail" />
-                    <button type="button" class="btn btn-sm btn-outline-danger file-upload-remove" data-file-index="${index}" title="Remove">x</button>
-                </div>
-            `;
-
-            // Append the preview item to the container
-            fileInput.closest(".file-upload-section").find(".display-input-images").append(previewItem);
+                        reader.readAsDataURL(file); // Read file as Data URL
+                    });
+                }
+            });
         });
-    });
-
-    // Remove individual image previews
-    $(".file-upload-section").on("click", ".file-upload-remove", function () {
-        $(this).closest(".preview-item").remove();
-    });
-});
-
-
     </script>
 @endpush
