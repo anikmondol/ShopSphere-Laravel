@@ -20,4 +20,28 @@ class CartController extends Controller
         return redirect()->back();
     }
 
+    function increase_cart_quantity($rowId){
+        $product = Cart::instance('cart')->get($rowId);
+        $qty = $product->qty + 1;
+        Cart::instance('cart')->update($rowId, $qty);
+        return redirect()->back();
+    }
+
+    function decrease_cart_quantity($rowId){
+        $product = Cart::instance('cart')->get($rowId);
+        $qty = $product->qty - 1;
+        Cart::instance('cart')->update($rowId, $qty);
+        return redirect()->back();
+    }
+
+    function remove_item($rowId){
+        Cart::instance('cart')->remove($rowId);
+        return redirect()->back();
+    }
+
+    function empty_cart(){
+        Cart::instance('cart')->destroy();
+        return redirect()->back();
+    }
+
 }
