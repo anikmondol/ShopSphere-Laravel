@@ -169,8 +169,8 @@
                                     @foreach ($brands as $brand)
                                         <li class="list-item">
                                             <span class="menu-link py-1">
-                                                <input type="checkbox" name="brands"
-                                                    value="{{ $brand->id }}" class="chk-brand"
+                                                <input type="checkbox" name="brands" value="{{ $brand->id }}"
+                                                    class="chk-brand"
                                                     @if (in_array($brand->id, explode(',', $f_brands))) checked="checked" @endif>
                                                 {{ $brand->name }}
                                             </span>
@@ -499,7 +499,7 @@
         <input type="hidden" name="page" value="{{ $products->currentPage() }}">
         <input type="hidden" name="size" id="size" value="{{ $size }}">
         <input type="hidden" name="order" id="order" value="{{ $order }}">
-        <input type="hidden" name="brand" id="hdnBrand">
+        <input type="hidden" name="brands" id="hdnBrands">
     </form>
 @endsection
 
@@ -527,11 +527,9 @@
                         brands += "," + $(this).val();
                     }
                 });
-                $('#hdnBrand').val(brands);
+                $('#hdnBrands').val(brands);
                 $("#frmFilter").submit();
             });
-
-
 
         })
     </script>

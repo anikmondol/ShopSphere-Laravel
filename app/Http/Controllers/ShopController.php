@@ -39,19 +39,10 @@ class ShopController extends Controller
                 $o_order = 'DESC';
                 break;
         }
-        // $brands = Brand::where(function($query) use($f_brands){
-        //     $query->whereIn("brand_id", explode(',', $f_brands))->orwhereRaw("'='".$f_brands."'");
-        // })->orderBy("name", "ASC")->get(',', $f_brands);
-        // $products = Product::orderBy($o_column, $o_order)->paginate($size);
-
 
         $brands = Brand::orderBy('name', 'ASC')->get();
-        $products = Product::when(!empty($f_brands), function ($query) use ($f_brands) {
-            $brands = explode(',', $f_brands);
-            // Only add the whereIn clause if $brands is not empty
-            if (!empty($brands)) {
-                $query->whereIn('brand_id', $brands);
-            }
+        $products = Product::where(function($query) use($f_brands){
+            $query->whereIn('brand_id',explode(',',$f_brands))->orwhereRaw("'".$f_brands."'=''");
         })->orderBy($o_column, $o_order)->paginate($size);
 
 
