@@ -1,22 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
-<style>
-    .brand-list li, .category-list li{
-        line-height: 40px;
-    }
-
-    .brand-list li .chk-brand, .category-list li .chk-category{
-        width: 1rem;
-        height: 1rem;
-        color: #ede4ed;
-        border: 0.125rem solid currentColor;
-        margin-right: 0.75rem;
-    }
-
-</style>
-
     <main class="pt-90">
         <section class="shop-main container d-flex pt-4 pt-xl-5">
             <div class="shop-sidebar side-sticky bg-body" id="shopFilter">
@@ -51,8 +35,9 @@
                                         <li class="list-item">
                                             <span class="menu link py-1">
                                                 <input class="chk-category" type="checkbox" name="categories"
-                                                    value="{{ $category->id }}" @if (in_array($category->id, explode(',', $f_categories))) checked="checked" @endif>
-                                                    {{ Str::ucfirst($category->name) }}
+                                                    value="{{ $category->id }}"
+                                                    @if (in_array($category->id, explode(',', $f_categories))) checked="checked" @endif>
+                                                {{ Str::ucfirst($category->name) }}
                                             </span>
                                             <span class="text-right float-end">
                                                 {{ $category->products->count() }}
@@ -471,14 +456,31 @@
                                         <span class="reviews-note text-lowercase text-secondary ms-1">8k+ reviews</span>
                                     </div>
 
-                                    <button
-                                        class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
-                                        title="Add To Wishlist">
-                                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <use href="#icon_heart" />
-                                        </svg>
-                                    </button>
+                                    @if (Cart::instance('wishlist')->content()->where('id', $product->id)->count() > 0)
+                                        <button type="submit"
+                                            class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                                            title="Add To Wishlist">
+                                            <i class="fa-solid fa-heart filled-heart"></i>
+                                            </svg>
+                                        </button>
+                                    @else
+                                        <form method="POST" action="{{ route('wishlist.add') }}">
+                                            @csrf
+                                            <input type="hidden" name="id" value="{{ $product->id }}">
+                                            <input type="hidden" name="name" value="{{ $product->name }}">
+                                            <input type="hidden" name="prince"
+                                                value="{{ $product->sale_price == '' ? $product->regular_price : $product->sale_price }}">
+                                            <input type="hidden" name="quantity" value="{{ $product->quantity }}">
+                                            <button type="submit"
+                                                class="pc__btn-wl position-absolute top-0 end-0 bg-transparent border-0 js-add-wishlist"
+                                                title="Add To Wishlist">
+                                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <use href="#icon_heart" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -553,7 +555,7 @@
                 $('#hdnMaxPrice').val(max);
 
                 setTimeout(() => {
-                     $("#frmFilter").submit();
+                    $("#frmFilter").submit();
                 }, 1000);
 
             });

@@ -17,3 +17,20 @@
 .form-floating>.form-select {
     height: 48px;
 }
+
+.brand-list li, .category-list li{
+    line-height: 40px;
+ }
+
+.brand-list li .chk-brand, .category-list li .chk-category{
+     width: 1rem;
+    height: 1rem;
+    color: #ede4ed;
+    border: 0.125rem solid currentColor;
+    margin-right: 0.75rem;
+}
+
+.filled-heart{
+   color: rgb(227, 57, 57) !important;
+   font-size: 1rem;
+}

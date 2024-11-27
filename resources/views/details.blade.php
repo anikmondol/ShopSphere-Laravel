@@ -137,7 +137,8 @@
                                 </div><!-- .qty-control -->
                                 <input type="hidden" name="id" value="{{ $product->id }}">
                                 <input type="hidden" name="name" value="{{ $product->name }}">
-                                <input type="hidden" name="price" value="{{ $product->sale_price == '' ? $product->regular_price : $product->sale_price }}">
+                                <input type="hidden" name="price"
+                                    value="{{ $product->sale_price == '' ? $product->regular_price : $product->sale_price }}">
                                 <button type="submit" class="btn btn-primary btn-addtocart " data-aside="cartDrawer">Add
                                     to
                                     Cart</button>
@@ -145,10 +146,24 @@
                         </form>
                     @endif
                     <div class="product-single__addtolinks">
-                        <a href="#" class="menu-link menu-link_us-s add-to-wishlist"><svg width="16"
-                                height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <use href="#icon_heart" />
-                            </svg><span>Add to Wishlist</span></a>
+                        @if (Cart::instance('wishlist')->content()->where('id', $product->id)->count() > 0)
+                            <a href="javascript:void(0)" class="menu-link menu-link_us-s add-to-wishlist">
+                                <i class="fa-solid fa-heart filled-heart"></i>
+                                <span>Remove to Wishlist</span>
+                            </a>
+                        @else
+                            <form method="POST" action="{{ route('wishlist.add') }}" id="wishlist_form">
+                                @csrf
+                                <input type="hidden" name="id" value="{{ $product->id }}">
+                                <input type="hidden" name="name" value="{{ $product->name }}">
+                                <input type="hidden" name="prince"
+                                    value="{{ $product->sale_price == '' ? $product->regular_price : $product->sale_price }}">
+                                <input type="hidden" name="quantity" value="{{ $product->quantity }}">
+                                <a href="javascript:void(0)" class="menu-link menu-link_us-s add-to-wishlist" onclick="document.getElementById('wishlist_form').submit();"><i
+                                        class="fa-solid fa-heart"></i>
+                                    <span>Add to Wishlist</span></a>
+                            </form>
+                        @endif
                         <share-button class="share-button">
                             <button
                                 class="menu-link menu-link_us-s to-share border-0 bg-transparent d-flex align-items-center">
@@ -447,7 +462,7 @@
                                         @endforeach
                                     </a>
 
-                                     @if (Cart::instance('cart')->content()->where('id', $product->id)->count() > 0)
+                                    @if (Cart::instance('cart')->content()->where('id', $product->id)->count() > 0)
                                         <a href="{{ route('cart.index') }}"
                                             class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium btn-warning mb-3">
                                             Go to Carts </a>
@@ -459,8 +474,8 @@
                                             <input type="hidden" name="name" value="{{ $r_product->name }}">
                                             <input type="hidden" name="price"
                                                 value="{{ $r_product->sale_price == '' ? $r_product->regular_price : $product->sale_price }}">
-                                            <button
-                                                type="submit" class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
+                                            <button type="submit"
+                                                class="pc__atc btn anim_appear-bottom btn position-absolute border-0 text-uppercase fw-medium"
                                                 data-aside="cartDrawer" title="Add To Cart">Add To Cart</button>
                                         </form>
                                     @endif
