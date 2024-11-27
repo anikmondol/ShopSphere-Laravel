@@ -147,10 +147,14 @@
                     @endif
                     <div class="product-single__addtolinks">
                         @if (Cart::instance('wishlist')->content()->where('id', $product->id)->count() > 0)
-                            <a href="javascript:void(0)" class="menu-link menu-link_us-s add-to-wishlist">
+                        <form name="addtocart-form" method="POST" action="{{ route('wishlist.item.remove',["rowId"=>Cart::instance('wishlist')->content()->where('id', $product->id)->first()->rowId]) }}" id="wishlist-item-remove">
+                            @csrf
+                            @method("DELETE")
+                            <a href="javascript:void(0)" class="menu-link menu-link_us-s add-to-wishlist" onclick="document.getElementById('wishlist-item-remove').submit();">
                                 <i class="fa-solid fa-heart filled-heart"></i>
                                 <span>Remove to Wishlist</span>
                             </a>
+                        </form>
                         @else
                             <form method="POST" action="{{ route('wishlist.add') }}" id="wishlist_form">
                                 @csrf
