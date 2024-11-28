@@ -53,7 +53,7 @@ class ShopController extends Controller
         })->where(function ($query) use ($f_categories) {
             $query->whereIn('category_id', explode(',', $f_categories))->orwhereRaw("'" . $f_categories . "'=''");
         })->where(function ($query) use ($min_price, $max_price) {
-            $query->whereBetween('regular_price', [$min_price, $max_price])->orwhereBetween('sale_price', [$min_price, $max_price]);
+            $query->whereBetween('sale_price', [$min_price, $max_price])->orwhereBetween('regular_price', [$min_price, $max_price]);
         })->orderBy($o_column, $o_order)->paginate($size);
 
 

@@ -7,14 +7,14 @@ use App\Models\Category;
 use App\Models\Coupon;
 use App\Models\Product;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 
 
 use Intervention\Image\Laravel\Facades\Image;
-
-
+use Surfsidemedia\Shoppingcart\Facades\Cart;
 
 class AdminController extends Controller
 {
@@ -549,9 +549,9 @@ class AdminController extends Controller
 
     function coupon_delete($id)
     {
-
         $category = Coupon::find($id);
         $category->delete();
         return redirect()->route("admin.coupons")->with("status", "Category has been delete successfully");
     }
+
 }
