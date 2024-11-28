@@ -34,10 +34,14 @@
                             </div>
                         </form>
                     </div>
-                    <a class="tf-button style-1 w208" href="add-coupon.html"><i class="icon-plus"></i>Add new</a>
+                    <a class="tf-button style-1 w208" href="{{ route('admin.coupon.add') }}"><i class="icon-plus"></i>Add
+                        new</a>
                 </div>
                 <div class="wg-table table-all-user">
                     <div class="table-responsive">
+                        @if (Session::has('status'))
+                            <p class="alert alert-success">{{ Session::get('status') }}</p>
+                        @endif
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
@@ -62,12 +66,15 @@
                                         <td>{{ $coupon->expiry_date }}</td>
                                         <td>
                                             <div class="list-icon-function">
-                                                <a href="#">
+                                                <a href="{{ route('admin.coupon.edit', ['id' => $coupon->id]) }}">
                                                     <div class="item edit">
                                                         <i class="icon-edit-3"></i>
                                                     </div>
                                                 </a>
-                                                <form action="#" method="POST">
+                                                <form action="{{ route('admin.coupon.delete', ['id' => $coupon->id]) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
                                                     <div class="item text-danger delete">
                                                         <i class="icon-trash-2"></i>
                                                     </div>
@@ -76,77 +83,38 @@
                                         </td>
                                     </tr>
                                 @endforeach
-
                             </tbody>
                         </table>
                     </div>
                 </div>
-                div class="divider">
             </div>
             <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
                 {{ $coupons->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>
-    </div>
 @endsection
 
 
-{{-- @push('scripts')
+@push('scripts')
     <script>
         $(function() {
-            $("#myFile").on("change", function(e) {
-                const photoInput = $("#myFile");
-                const [file] = this.files;
-                if (file) {
-                    $("#imgpreview img").attr('src', URL.createObjectURL(file));
-                    $("#imgpreview").show();
-                }
-            });
+            $(".delete").on("click", function(e) {
+                e.preventDefault(); // Properly terminate this statement with a semicolon
 
-            $("input[name='name']").on('change', function() {
-                $("input[name='slug']").val(StringToSlug($(this).val()));
-            });
-        });
-
-        function StringToSlug(Text) {
-            return Text.toLowerCase()
-                .replace(/[^\w\s-]/g, "")
-                .replace(/\s+/g, "-")
-                .replace(/^-+|-+$/g, "");
-        }
-
-        $(document).ready(function() {
-            // Trigger file input when clicking on drag-and-drop area
-            $('.uploadfile').on('click', function() {
-                $(this).find('input[type="file"]').trigger('click');
-            });
-
-            // Trigger file input when clicking on Browse button
-            $('.file-upload-browse').on('click', function() {
-                $(this).closest('.file-upload-section').find('input[type="file"]').trigger('click');
-            });
-
-            // Handle file selection and display previews
-            $('input[type="file"]').on('change', function() {
-                const files = this.files;
-                const displayContainer = $(this).closest('.file-upload-section').find(
-                    '.display-input-images');
-                displayContainer.empty(); // Clear existing previews
-
-                if (files.length > 0) {
-                    Array.from(files).forEach(file => {
-                        const reader = new FileReader();
-
-                        reader.onload = function(e) {
-                            const img = $('<img>').attr('src', e.target.result);
-                            displayContainer.append(img);
-                        };
-
-                        reader.readAsDataURL(file); // Read file as Data URL
-                    });
-                }
+                let form = $(this).closest('form');
+                swal({
+                    title: "Are you sure?", // Fixed spelling of "title"
+                    text: "You want to delete this record?",
+                    icon: "warning", // Correct type property: "icon"
+                    buttons: ["No", "Yes"],
+                    dangerMode: true, // Adds a danger mode style to the alert
+                }).then(function(result) {
+                    if (result) {
+                        form.submit();
+                    }
+                });
             });
         });
     </script>
-@endpush --}}
+@endpush
