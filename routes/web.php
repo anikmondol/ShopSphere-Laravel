@@ -15,12 +15,14 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+
+// shop functionality
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product_slug}', [ShopController::class, 'product_details'])->name('shop.product.details');
 
 
 
-
+// cart functionality
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add', [CartController::class, 'add_to_cart'])->name('cart.add');
 Route::put('/cart/increase-quantity/{rowId}', [CartController::class, 'increase_cart_quantity'])->name('cart.qty.increase');
@@ -31,8 +33,10 @@ Route::delete('/cart/clear', [CartController::class, 'empty_cart'])->name('cart.
 
 //  apple coupon
 Route::post('/cart/apply-coupon', [CartController::class, 'apply_coupon_code'])->name("cart.coupon.apply");
+Route::delete('/cart/remove-coupon', [CartController::class, 'remove_coupon_code'])->name("cart.coupon.remove");
 
 
+// brands wishlist
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
 Route::post('/wishlist/add', [WishlistController::class, 'add_to_wishlist'])->name('wishlist.add');
 Route::delete('/wishlist/item/remove/{rowId}', [WishlistController::class, 'remove_item'])->name('wishlist.item.remove');
