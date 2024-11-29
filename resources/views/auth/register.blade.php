@@ -20,7 +20,7 @@
                             @csrf
                             <div class="form-floating mb-3">
                                 <input class="form-control form-control_gray @error('name') is-invalid @enderror "
-                                    name="name" value="{{ old('name') }}" required="" autocomplete="name" autofocus="">
+                                    name="name" value="{{ old('name') }}" autocomplete="name" autofocus="">
                                 <label for="name">Name</label>
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -32,7 +32,7 @@
                             <div class="form-floating mb-3">
                                 <input id="email" type="email"
                                     class="form-control form-control_gray @error('email') is-invalid @enderror "
-                                    name="email" value="{{ old('email') }}" required="" autocomplete="email">
+                                    name="email" value="{{ old('email') }}" autocomplete="email">
                                 <label for="email">Email address *</label>
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -46,7 +46,7 @@
                             <div class="form-floating mb-3">
                                 <input id="mobile" type="text"
                                     class="form-control form-control_gray @error('mobile') is-invalid @enderror "
-                                    name="mobile" value="{{ old('mobile') }}" required="" autocomplete="mobile">
+                                    name="mobile" value="{{ old('mobile') }}" autocomplete="mobile">
                                 <label for="mobile">Mobile *</label>
                                 @error('mobile')
                                     <span class="invalid-feedback" role="alert">
@@ -60,7 +60,7 @@
                             <div class="form-floating mb-3">
                                 <input id="password" type="password"
                                     class="form-control form-control_gray @error('password') is-invalid @enderror "
-                                    name="password" required="" autocomplete="new-password">
+                                    name="password" autocomplete="new-password">
                                 <label for="password">Password *</label>
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -72,7 +72,7 @@
                             <div class="form-floating mb-3">
                                 <input id="password-confirm" type="password"
                                     class="form-control form-control_gray @error('password_confirmation') is-invalid @enderror"
-                                    name="password_confirmation" required="" autocomplete="new-password">
+                                    name="password_confirmation" autocomplete="new-password">
                                 <label for="password-confirm">Confirm Password *</label>
                                 @error('password_confirmation')
                                     <span class="invalid-feedback" role="alert">

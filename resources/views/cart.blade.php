@@ -219,7 +219,7 @@
                             </div>
                             <div class="mobile_fixed-btn_wrapper">
                                 <div class="button-wrapper container">
-                                    <a href="checkout.html" class="btn btn-primary btn-checkout "
+                                    <a href="{{ route('cart.checkout') }}" class="btn btn-primary btn-checkout "
                                         style="display: flex; align-items: center; justify-content: center;">PROCEED TO
                                         CHECKOUT</a>
                                 </div>

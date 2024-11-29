@@ -34,6 +34,7 @@ Route::delete('/cart/clear', [CartController::class, 'empty_cart'])->name('cart.
 //  apple coupon
 Route::post('/cart/apply-coupon', [CartController::class, 'apply_coupon_code'])->name("cart.coupon.apply");
 Route::delete('/cart/remove-coupon', [CartController::class, 'remove_coupon_code'])->name("cart.coupon.remove");
+Route::get('/checkout', [CartController::class, 'checkout'])->name("cart.checkout");
 
 
 // brands wishlist
