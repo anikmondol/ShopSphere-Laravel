@@ -68,122 +68,120 @@
                 </div>
 
             </div>
-        </div>
 
+            <div class="wg-box mt-5">
+                <div class="flex items-center justify-between gap10 flex-wrap">
+                    <div class="wg-filter flex-grow">
+                        <h5>Ordered Items</h5>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th class="text-center">Price</th>
+                                <th class="text-center">Quantity</th>
+                                <th class="text-center">SKU</th>
+                                <th class="text-center">Category</th>
+                                <th class="text-center">Brand</th>
+                                <th class="text-center">Options</th>
+                                <th class="text-center">Return Status</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orderItems as $item)
+                                <tr>
+                                    <td class="pname">
+                                        <div class="image">
+                                            <img src="{{ asset('uploads/products/thumbnails/' . $item->product->image) }}"
+                                                alt="{{ $item->product->name }}" class="image">
+                                        </div>
+                                        <div class="name">
+                                            <a href="{{ route('shop.product.details', ['product_slug' => $item->product->slug]) }}"
+                                                target="_blank" class="body-title-2">{{ $item->product->name }}</a>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">${{ $item->price }}</td>
+                                    <td class="text-center">{{ $item->quantity }}</td>
+                                    <td class="text-center">{{ $item->product->SKU }}</td>
+                                    <td class="text-center">{{ $item->product->category->slug }}</td>
+                                    <td class="text-center">{{ $item->product->brand->name ?? 'N/A' }}</td>
+                                    <td class="text-center">
+                                        {{ is_array($item->options) ? implode(', ', $item->options) : $item->options ?? 'N/A' }}
+                                    </td>
+                                    <td class="text-center">{{ $item->rstatus == 0 ? 'NO' : 'YES' }}</td>
+                                    <td class="text-center">
+                                        <div class="list-icon-function view-icon">
+                                            <div class="item eye">
+                                                <i class="icon-eye"></i>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
 
+                        </tbody>
+                    </table>
+                </div>
 
-        <div class="wg-box">
-            <div class="flex items-center justify-between gap10 flex-wrap">
-                <div class="wg-filter flex-grow">
-                    <h5>Ordered Items</h5>
+                <div class="divider"></div>
+                <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
+                    {{ $orderItems->links('pagination::bootstrap-5') }}
                 </div>
             </div>
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th class="text-center">Price</th>
-                            <th class="text-center">Quantity</th>
-                            <th class="text-center">SKU</th>
-                            <th class="text-center">Category</th>
-                            <th class="text-center">Brand</th>
-                            <th class="text-center">Options</th>
-                            <th class="text-center">Return Status</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($orderItems as $item)
-                            <tr>
-                                <td class="pname">
-                                    <div class="image">
-                                        <img src="{{ asset('uploads/products/thumbnails/' . $item->product->image) }}"
-                                            alt="{{ $item->product->name }}" class="image">
-                                    </div>
-                                    <div class="name">
-                                        <a href="{{ route('shop.product.details', ['product_slug' => $item->product->slug]) }}"
-                                            target="_blank" class="body-title-2">{{ $item->product->name }}</a>
-                                    </div>
-                                </td>
-                                <td class="text-center">${{ $item->price }}</td>
-                                <td class="text-center">{{ $item->quantity }}</td>
-                                <td class="text-center">{{ $item->product->SKU }}</td>
-                                <td class="text-center">{{ $item->product->category->slug }}</td>
-                                <td class="text-center">{{ $item->product->brand->name ?? 'N/A' }}</td>
-                                <td class="text-center">
-                                    {{ is_array($item->options) ? implode(', ', $item->options) : $item->options ?? 'N/A' }}
-                                </td>
-                                <td class="text-center">{{ $item->rstatus == 0 ? 'NO' : 'YES' }}</td>
-                                <td class="text-center">
-                                    <div class="list-icon-function view-icon">
-                                        <div class="item eye">
-                                            <i class="icon-eye"></i>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
 
+            <div class="wg-box mt-5">
+                <h5>Shipping Address</h5>
+                <div class="my-account__address-item col-md-6">
+                    <div class="my-account__address-item__detail">
+                        <p>{{ $order->name }}</p>
+                        <p>{{ $order->address }}</p>
+                        <p>{{ $order->locality }}</p>
+                        <p>{{ $order->city }}, {{ $order->country }} </p>
+                        <p>{{ $order->landmark }}</p>
+                        <p>{{ $order->zip }}</p>
+                        <br>
+                        <p>{{ $order->phone }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wg-box mt-5">
+                <h5>Transactions</h5>
+                <table class="table table-striped table-bordered table-transaction">
+                    <tbody>
+                        <tr>
+                            <th>Subtotal</th>
+                            <td>${{ $order->subtotal }}</td>
+                            <th>Tax</th>
+                            <td>${{ $order->tax }}</td>
+                            <th>Discount</th>
+                            <td>${{ $order->discount }}</td>
+                        </tr>
+                        <tr>
+                            <th>Total</th>
+                            <td>${{ $order->total }}</td>
+                            <th>Payment Mode</th>
+                            <td>{{ $transaction->mode }}</td>
+                            <th>Status</th>
+                            <td>
+                                @if ($transaction->status == 'approved')
+                                    <span class="badge bg-success">Approved</span>
+                                @elseif ($transaction->status == 'declinded')
+                                    <span class="badge bg-danger">Declinded</span>
+                                @elseif ($transaction->status == 'refunded')
+                                    <span class="badge bg-danger">Refunded</span>
+                                @else
+                                    <span class="badge bg-warning">Pending</span>
+                                @endif
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="divider"></div>
-            <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-                {{ $orderItems->links('pagination::bootstrap-5') }}
-            </div>
         </div>
-
-        <div class="wg-box mt-5">
-            <h5>Shipping Address</h5>
-            <div class="my-account__address-item col-md-6">
-                <div class="my-account__address-item__detail">
-                    <p>{{ $order->name }}</p>
-                    <p>{{ $order->address }}</p>
-                    <p>{{ $order->locality }}</p>
-                    <p>{{ $order->city }}, {{ $order->country }} </p>
-                    <p>{{ $order->landmark }}</p>
-                    <p>{{ $order->zip }}</p>
-                    <br>
-                    <p>{{ $order->phone }}</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="wg-box mt-5">
-            <h5>Transactions</h5>
-            <table class="table table-striped table-bordered table-transaction">
-                <tbody>
-                    <tr>
-                        <th>Subtotal</th>
-                        <td>${{ $order->subtotal }}</td>
-                        <th>Tax</th>
-                        <td>${{ $order->tax }}</td>
-                        <th>Discount</th>
-                        <td>${{ $order->discount }}</td>
-                    </tr>
-                    <tr>
-                        <th>Total</th>
-                        <td>${{ $order->total }}</td>
-                        <th>Payment Mode</th>
-                        <td>{{ $transaction->mode }}</td>
-                        <th>Status</th>
-                        <td>
-                            @if ($transaction->status == 'approved')
-                                <span class="badge bg-success">Approved</span>
-                            @elseif ($transaction->status == 'declinded')
-                                <span class="badge bg-danger">Declinded</span>
-                            @elseif ($transaction->status == 'refunded')
-                                <span class="badge bg-danger">Refunded</span>
-                            @else
-                                <span class="badge bg-warning">Pending</span>
-                            @endif
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
     </div>
 @endsection

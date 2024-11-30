@@ -577,19 +577,15 @@ class AdminController extends Controller
 
     public function order_details($order_id)
     {
-        // Fetch the order details
+
         $order = Order::find($order_id);
 
-        // Fetch the order items with pagination
-        $orderItems = OrderItem::where('order_id', $order_id)
-                               ->orderBy('id')
-                               ->paginate(10);
+        $orderItems = OrderItem::where('order_id', $order->id)
+            ->orderBy('id')
+            ->paginate(10);
 
-        // Fetch the associated transaction
         $transaction = Transaction::where('order_id', $order_id)->first();
 
-        // Return the view with the data
         return view('admin.order-details', compact('order', 'orderItems', 'transaction'));
     }
-
 }
