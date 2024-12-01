@@ -13,6 +13,7 @@ use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -24,7 +25,43 @@ class AdminController extends Controller
     //
     function index()
     {
-        return view("admin.index");
+        $orders = Order::orderBy('created_at', 'DESC')->get()->take(5);
+        $dashboardData = DB::select("Select sum(total) As TotalAmount,
+        sum(if(status='ordered',total,0)) AS TotalOrderedAmount,
+        sum(if(status='delivered',total,0)) AS TotalDeliveredAmount,
+        sum(if(status='canceled',total,0)) AS TotalCanceledAmount,
+        Count(*) As Total,
+        sum(if(status='ordered',1,0)) AS TotalOrdered,
+        sum(if(status='delivered',1,0)) AS TotalDelivered,
+        sum(if(status='canceled',1,0)) AS TotalCanceled From Orders
+        ");
+
+        $monthlyDate = DB::select("SELECT M.id As MonthNo, M.name As MonthName,
+        IFNULL(D.TotalAmount,0) As TotalAmount,
+        IFNULL(D.TotalOrderedAmount,0) As TotalOrderedAmount,
+        IFNULL(D.TotalDeliveredAmount,0) As TotalDeliveredAmount,
+        IFNULL(D.TotalCanceledAmount,0) As TotalCanceledAmount FROM month_names M LEFT JOIN (Select DATE_FORMAT(created_at, '%b') As MonthName,
+        MONTH(created_at) As MonthNo,
+        sum(total) As TotalAmount,
+        sum(if(status='ordered',total,0)) As TotalOrderedAmount,
+        sum(if(status='delivered',total,0)) As TotalDeliveredAmount,
+        sum(if(status='canceled',total,0)) As TotalCanceledAmount
+        From Orders WHERE YEAR(created_at)=YEAR(NoW()) GROUP BY YEAR(created_at), MONTH(created_at), DATE_FORMAT(created_at, '%b') Order By MONTH(created_at)) D on D.MonthNo=M.id");
+
+
+        $amount = implode(',', collect($monthlyDate)->pluck('TotalAmount')->toArray());
+        $orderedAmount = implode(',', collect($monthlyDate)->pluck('TotalOrderedAmount')->toArray());
+        $deliveredAmount = implode(',', collect($monthlyDate)->pluck('TotalDeliveredAmount')->toArray());
+        $canceledAmount = implode(',', collect($monthlyDate)->pluck('TotalCanceledAmount')->toArray());
+
+
+        $totalAmount = collect($monthlyDate)->sum('TotalAmount');
+        $totalOrderedAmount = collect($monthlyDate)->sum('TotalOrderedAmount');
+        $totalDeliveredAmount = collect($monthlyDate)->sum('TotalDeliveredAmount');
+        $totalCanceledAmount = collect($monthlyDate)->sum('TotalCanceledAmount');
+
+
+        return view("admin.index", compact('orders', 'dashboardData', 'amount', 'orderedAmount', 'deliveredAmount', 'canceledAmount', 'totalAmount', 'totalOrderedAmount', 'totalDeliveredAmount', 'totalCanceledAmount'));
     }
 
     // brands functionality
@@ -734,6 +771,4 @@ class AdminController extends Controller
             $constrain->aspectRatio();
         })->save($destinationPath . "/" . $imageName);
     }
-
-
 }
