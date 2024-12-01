@@ -55,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
      // orders functionality
      Route::get('/account-orders', [UserController::class, 'orders'])->name('user.order');
      Route::get('/account-order/details/{order_id}', [UserController::class, 'order_details'])->name('user.order.details');
+     Route::put('/account-order/order-cancel', [UserController::class, 'order_cancel'])->name('user.order.cancel');
 
 });
 
@@ -101,5 +102,15 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin/orders', [AdminController::class, 'orders'])->name("admin.orders");
     Route::get('/admin/order/details/{order_id}', [AdminController::class, 'order_details'])->name('admin.order.details');
     Route::put('/admin/order/update-status', [AdminController::class, 'update_order_status'])->name('admin.order.status.update');
+
+
+     // slides functionality
+     Route::get('/admin/slides', [AdminController::class, 'slides'])->name("admin.slides");
+     Route::get('/admin/slider/add', [AdminController::class, 'add_slider'])->name("admin.slider.add");
+     Route::post('/admin/slider/store', [AdminController::class, 'slider_store'])->name("admin.slider.store");
+     Route::get('/admin/slider/edit/{id}', [AdminController::class, 'slider_edit'])->name("admin.slider.edit");
+     Route::put('/admin/slider/update', [AdminController::class, 'slider_update'])->name("admin.slider.update");
+     Route::delete('/admin/slider/delete/{id}', [AdminController::class, 'slider_delete'])->name("admin.slider.delete");
+
 
 });

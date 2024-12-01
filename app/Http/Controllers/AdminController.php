@@ -8,14 +8,14 @@ use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Slide;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
-
-
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Laravel\Facades\Image;
 use Surfsidemedia\Shoppingcart\Facades\Cart;
 
@@ -580,7 +580,8 @@ class AdminController extends Controller
         return view('admin.order-details', compact('order', 'orderItems', 'transaction'));
     }
 
-    function update_order_status(Request $request){
+    function update_order_status(Request $request)
+    {
 
         $order = Order::find($request->order_id);
         $order->status = $request->order_status;
@@ -594,16 +595,144 @@ class AdminController extends Controller
         $order->save();
 
         if ($request->order_status == "delivered") {
-           $transaction = Transaction::where('order_id',$request->order_id)->first();
-           $transaction->status = "approved";
+            $transaction = Transaction::where('order_id', $request->order_id)->first();
+            $transaction->status = "approved";
 
-           $transaction->save();
-
+            $transaction->save();
         }
 
-        return back()->with('status',"Status changed successfully");
+        return back()->with('status', "Status changed successfully");
+    }
+
+    function slides()
+    {
+        $slides = Slide::orderBy('id', 'DESC')->paginate(10);
+        return view("admin.slides", compact("slides"));
+    }
+
+    function add_slider()
+    {
+        return view("admin.slider-add");
+    }
+
+    function slider_store(Request $request)
+    {
 
 
+        $request->validate([
+            'tagline' => "required|string|max:255",
+            'title' => "required|unique:slides,title|string|max:255",
+            'subtitle' => "required|unique:slides,subtitle|string|max:255",
+            'link' => 'required|url|max:255',
+            'image' => 'required|image|mimes:jpg,png,jpeg|max:2048',
+            'status' => 'required|boolean',
+        ]);
+
+
+        $slider = new Slide();
+
+        $slider->tagline = $request->tagline;
+        $slider->title = $request->title;
+        $slider->subtitle = $request->subtitle;
+        $slider->status = $request->status;
+        $slider->link = $request->link;
+
+
+
+        $image = $request->file('image');
+        $file_extension = $request->file('image')->extension();
+        $file_name = Carbon::now()->timestamp . '.' . $file_extension;
+        $this->generateSliderThumbnailsImage($image, $file_name);
+        $slider->image = $file_name;
+        $slider->save();
+        return redirect()->route("admin.slides")->with("status", "Slider has been added successfully");
+    }
+
+
+    function slider_delete($id)
+    {
+
+        $slider = Slide::find($id);
+
+        if (File::exists(public_path("uploads/slides/{$slider->image}"))) {
+            File::delete(public_path("uploads/slides/{$slider->image}"));
+        }
+
+        $slider->delete();
+        return redirect()->route("admin.slides")->with("status", "Slider has been delete successfully");
+    }
+
+    function slider_edit($id)
+    {
+        $slider = Slide::find($id);
+        return view("admin.slider-edit", compact('slider'));
+    }
+
+
+    public function slider_update(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'tagline' => "required|string|max:255",
+            'title' => "required|string|max:255|unique:slides,title,{$request->id}",
+            'subtitle' => "required|string|max:255|unique:slides,subtitle,{$request->id}",
+            'link' => 'required|url|max:255',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048', // Image is nullable for updates
+            'status' => 'required|boolean',
+        ]);
+
+        // Find the slide by ID
+        $slider = Slide::findOrFail($request->id);
+
+        // Update the slider attributes
+        $slider->tagline = $request->tagline;
+        $slider->title = $request->title;
+        $slider->subtitle = $request->subtitle;
+        $slider->status = $request->status;
+        $slider->link = $request->link;
+
+        // Handle image upload if present
+        if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if (!empty($slider->image) && Storage::exists("public/slides/{$slider->image}")) {
+                Storage::delete("public/slides/{$slider->image}");
+            }
+
+            // Upload the new image
+            $image = $request->file('image');
+            $file_extension = $image->extension();
+            $file_name = Carbon::now()->timestamp . '.' . $file_extension;
+
+            // Move the image to the public storage path
+            $image->storeAs('public/slides', $file_name);
+
+            // Optionally, generate thumbnails or process the image if needed
+            $this->generateSliderThumbnailsImage($image, $file_name);
+
+            // Update the slider image filename
+            $slider->image = $file_name;
+        }
+
+        // Save the updated slide
+        $slider->save();
+
+        // Redirect back with success message
+        return redirect()->route('admin.slides')->with('status', 'Slider has been updated successfully');
+    }
+
+
+
+
+
+
+    function generateSliderThumbnailsImage($image, $imageName)
+    {
+        $destinationPath = public_path("uploads/slides");
+        $img = Image::read($image->path());
+        $img->cover(400, 690, "top");
+        $img->resize(400, 690, function ($constrain) {
+            $constrain->aspectRatio();
+        })->save($destinationPath . "/" . $imageName);
     }
 
 
