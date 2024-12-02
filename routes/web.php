@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\About;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
@@ -22,6 +23,8 @@ Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product_slug}', [ShopController::class, 'product_details'])->name('shop.product.details');
 
 
+// about functionality
+Route::get('/about', [About::class, 'index'])->name('about.index');
 
 // cart functionality
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

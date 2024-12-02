@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'ShopSphere') }}</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="author" content="Anik Mondal" />
     <link rel="stylesheet" type="text/css" href="{{ asset('css/animate.min.css') }}">
@@ -320,7 +320,11 @@
                                                         <i class="icon-mail"></i>
                                                     </div>
                                                     <div class="body-title-2">Inbox</div>
-                                                    <div class="number">27</div>
+                                                    @php
+                                                        use App\Models\Contact;
+                                                        $contact = Contact::get();
+                                                    @endphp
+                                                    <div class="number">{{ count($contact) }}</div>
                                                 </a>
                                             </li>
                                             <li>
