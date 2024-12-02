@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Contact;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -757,11 +758,6 @@ class AdminController extends Controller
         return redirect()->route('admin.slides')->with('status', 'Slider has been updated successfully');
     }
 
-
-
-
-
-
     function generateSliderThumbnailsImage($image, $imageName)
     {
         $destinationPath = public_path("uploads/slides");
@@ -771,4 +767,20 @@ class AdminController extends Controller
             $constrain->aspectRatio();
         })->save($destinationPath . "/" . $imageName);
     }
+
+
+    function contacts(){
+        $contacts = Contact::orderBy('created_at', "DESC")->paginate(10);
+        return view('admin.contacts',compact('contacts'));
+
+    }
+
+    function contact_delete($id)
+    {
+
+        $contact = Contact::find($id);
+        $contact->delete();
+        return redirect()->route("admin.contacts")->with("status", "Contact has been delete successfully");
+    }
+
 }

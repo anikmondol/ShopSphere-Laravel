@@ -34,3 +34,34 @@
    color: rgb(227, 57, 57) !important;
    font-size: 1rem;
 }
+
+.product-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    transition: all 0.3s ease;
+    padding-right: 5px;
+}
+
+.product-item .image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    gap: 10px;
+    flex-shrink: 0;
+    padding: 5px;
+    border-radius: 10px;
+    background: #EFF4F8;
+}
+
+#box-content-search li {
+    list-style: none;
+}
+
+#box-content-search .product-item {
+    margin-bottom: 10px;
+}
+
