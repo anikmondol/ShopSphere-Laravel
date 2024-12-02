@@ -298,21 +298,25 @@
         <nav
             class="header-mobile__navigation navigation d-flex flex-column w-100 position-absolute top-100 bg-body overflow-auto">
             <div class="container">
-                <form action="#" method="GET" class="search-field position-relative mt-4 mb-3">
+                <form action="#" method="GET" class="search-field container">
+                    <p class="text-uppercase text-secondary fw-medium mb-4">What are you looking for?</p>
                     <div class="position-relative">
-                        <input class="search-field__input w-100 border rounded-1" type="text"
-                            name="search-keyword" placeholder="Search products" />
-                        <button class="btn-icon search-popup__submit pb-0 me-2" type="submit">
-                            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                        <input class="search-field__input search-popup__input w-100 fw-medium"
+                            type="text" name="search-keyword" id="search-input"
+                            placeholder="Search products" />
+                        <button class="btn-icon search-popup__submit" type="submit">
+                            <svg class="d-block" width="20" height="20" viewBox="0 0 20 20"
+                                fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <use href="#icon_search" />
                             </svg>
                         </button>
-                        <button class="btn-icon btn-close-lg search-popup__reset pb-0 me-2" type="reset"></button>
+                        <button class="btn-icon btn-close-lg search-popup__reset" type="reset"></button>
                     </div>
 
-                    <div class="position-absolute start-0 top-100 m-0 w-100">
-                        <div class="search-result"></div>
+                    <div class="search-popup__results">
+                        <ul id="box-content-search">
+
+                        </ul>
                     </div>
                 </form>
             </div>
@@ -341,11 +345,27 @@
 
             <div class="border-top mt-auto pb-2">
                 <div class="customer-links container mt-4 mb-2 pb-1">
-                    <svg class="d-inline-block align-middle" width="20" height="20" viewBox="0 0 20 20"
-                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <use href="#icon_user" />
-                    </svg>
-                    <span class="d-inline-block ms-2 text-uppercase align-middle fw-medium">My Account</span>
+                    @guest()
+                        <div class="header-tools__item hover-container">
+                            <a href="{{ route('login') }}" class="header-tools__item">
+                                <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <use href="#icon_user" />
+                                </svg>
+                            </a>
+                        </div>
+                    @else
+                        <div class="header-tools__item hover-container">
+                            <a href="{{ Auth::user()->utype === 'ADM' ? route('admin.index') : route('user.index') }}"
+                                class="header-tools__item">
+                                <span class="me-1">{{ Auth::user()->name }}</span>
+                                <svg class="d-block" width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <use href="#icon_user" />
+                                </svg>
+                            </a>
+                        </div>
+                    @endguest
                 </div>
 
 
@@ -714,7 +734,7 @@
 
                 if (searchQuery.length > 2) {
 
-                    
+
 
                     $.ajax({
                         type: "GET",

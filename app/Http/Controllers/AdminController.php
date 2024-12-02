@@ -11,6 +11,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Slide;
 use App\Models\Transaction;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -60,6 +61,7 @@ class AdminController extends Controller
         $totalOrderedAmount = collect($monthlyDate)->sum('TotalOrderedAmount');
         $totalDeliveredAmount = collect($monthlyDate)->sum('TotalDeliveredAmount');
         $totalCanceledAmount = collect($monthlyDate)->sum('TotalCanceledAmount');
+
 
 
         return view("admin.index", compact('orders', 'dashboardData', 'amount', 'orderedAmount', 'deliveredAmount', 'canceledAmount', 'totalAmount', 'totalOrderedAmount', 'totalDeliveredAmount', 'totalCanceledAmount'));
@@ -782,5 +784,30 @@ class AdminController extends Controller
         $contact->delete();
         return redirect()->route("admin.contacts")->with("status", "Contact has been delete successfully");
     }
+
+    function search(Request $request){
+        $query = $request->input('query');
+        $results = Product::where('name',"LIKE","%{$query}%")->get()->take(8);
+        return response()->json($results);
+    }
+
+
+      // users functionality
+
+      function users()
+      {
+          $users = User::orderBy("id")->paginate(10);
+          return view("admin.users", compact('users'));
+      }
+
+      function users_delete($id)
+      {
+
+          $users = User::find($id);
+          $users->delete();
+          return redirect()->route("admin.users")->with("status", "User has been delete successfully");
+      }
+
+
 
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Layout;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
@@ -65,6 +66,8 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', AuthAdmin::class])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name("admin.index");
+    Route::get('/layout', [AdminController::class, 'contacts_count'])->name("contacts.count");
+
 
     // brands functionality
     Route::get('/admin/brands', [AdminController::class, 'brands'])->name("admin.brands");
@@ -119,5 +122,14 @@ Route::middleware(['auth', AuthAdmin::class])->group(function () {
     // contacts functionality
     Route::get('/admin/contacts', [AdminController::class, 'contacts'])->name("admin.contacts");
     Route::delete('/admin/contact/delete/{id}', [AdminController::class, 'contact_delete'])->name("admin.contact.delete");
+
+
+    // search functionality
+    Route::get('/admin/search', [AdminController::class, 'search'])->name('admin.search');
+
+    // users functionality
+    Route::get('/admin/users', [AdminController::class, 'users'])->name("admin.users");
+    Route::delete('/admin/users/delete/{id}', [AdminController::class, 'users_delete'])->name("admin.users.delete");
+
 
 });
